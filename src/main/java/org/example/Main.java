@@ -1,12 +1,12 @@
 package org.example;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-import java.util.List;
+
 import java.util.Scanner;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
+    private static final ProductDAO productDAO = new ProductDAO();
 
     public static void main(String[] args) {
         while (true) {
@@ -30,18 +30,11 @@ public class Main {
         System.out.print("Количество: ");
         int quantity = Integer.parseInt(scanner.nextLine());
 
-        try (Session session = DB_Util.getSessionFactory().openSession()) {
-            Transaction transaction = session.beginTransaction();
-            session.persist(new Product(null, name, price, quantity));
-            transaction.commit();
-        }
+        productDAO.create(new Product(null, name, price, quantity));
     }
 
     private static void showProducts() {
-        try (Session session = DB_Util.getSessionFactory().openSession()) {
-            List<Product> products = session.createQuery("from Product", Product.class).list();
-            products.forEach(System.out::println);
-        }
+        productDAO.getAll();
     }
 
     private static void updateProduct() {
@@ -62,9 +55,7 @@ public class Main {
             System.out.print("Новое количество: ");
             product.setQuantity(Integer.parseInt(scanner.nextLine()));
 
-            Transaction tx = session.beginTransaction();
-            session.merge(product);
-            tx.commit();
+            productDAO.update(product);
         }
     }
 
@@ -72,11 +63,6 @@ public class Main {
         System.out.print("ID товара: ");
         long id = Long.parseLong(scanner.nextLine());
 
-        try (Session session = DB_Util.getSessionFactory().openSession()) {
-            Product product = session.get(Product.class, id);
-            Transaction transaction = session.beginTransaction();
-            session.remove(product);
-            transaction.commit();
-        }
+        productDAO.delete(productDAO.getById(id));
     }
 }
