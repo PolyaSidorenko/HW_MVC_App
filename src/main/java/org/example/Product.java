@@ -1,6 +1,10 @@
 package org.example;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 
 import java.util.Objects;
 
@@ -8,11 +12,26 @@ import java.util.Objects;
 @Table(name = "products")
 public class Product {
 
+    /**
+     * Уникальный идентификатор продукта
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    /**
+     * Название продукта
+     */
     private String name;
+
+    /**
+     * Цена продукта
+     */
     private Double price;
+
+    /**
+     * Количество продуктов на складе
+     */
     private Integer quantity;
 
     public Product() {

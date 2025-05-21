@@ -8,7 +8,6 @@ import org.hibernate.cfg.Configuration;
  * Инициализирует фабрику сессий один раз при загрузке класса используя файл hibernate.cfg.xml
  * и сущность Product
  */
-
 public class DB_Util {
     private static final SessionFactory sessionFactory = buildSessionFactory();
 
