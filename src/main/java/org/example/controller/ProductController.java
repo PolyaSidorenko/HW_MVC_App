@@ -1,0 +1,65 @@
+package org.example.controller;
+
+import org.example.dao.ProductDAO;
+import org.example.domain.Product;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * Контроллер обрабтывает HTTP-запросы для отображения, создания, редактирования, обновления и удаления продуктов
+ */
+@Controller
+public class ProductController {
+
+    private final ProductDAO productDAO = new ProductDAO();
+
+    @GetMapping("/products")
+    public String allProducts(Model model) {
+        model.addAttribute("products", productDAO.getAll());
+
+        return "allProducts";
+    }
+
+    @GetMapping("/create")
+    public String createProduct(Model model) {
+        model.addAttribute("product", new Product());
+
+        return "createProduct";
+    }
+
+    @PostMapping("/save")
+    public String saveProduct(@ModelAttribute("product") Product product) {
+        productDAO.create(product);
+
+        return "redirect:/products";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editProduct(@PathVariable("id") long id, Model model) {
+        Product product = productDAO.getById(id);
+        if (product == null) {
+            return "redirect:/products";
+        }
+        model.addAttribute("product", product);
+
+        return "updateProduct";
+    }
+
+    @PostMapping("/update")
+    public String updateProduct(@ModelAttribute("product") Product product) {
+        productDAO.update(product);
+
+        return "redirect:/products";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable("id") long id) {
+        Product product = productDAO.getById(id);
+        if (product != null) {
+            productDAO.delete(product);
+        }
+
+        return "redirect:/products";
+    }
+}

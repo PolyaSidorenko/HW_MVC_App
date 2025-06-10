@@ -1,5 +1,7 @@
 package org.example;
 
+import lombok.Getter;
+import org.example.domain.Product;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -9,6 +11,7 @@ import org.hibernate.cfg.Configuration;
  * и сущность Product
  */
 public class DB_Util {
+    @Getter
     private static final SessionFactory sessionFactory = buildSessionFactory();
 
     private static SessionFactory buildSessionFactory() {
@@ -23,7 +26,4 @@ public class DB_Util {
         }
     }
 
-    public static SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
 }
