@@ -4,7 +4,10 @@ import org.example.dao.ProductDAO;
 import org.example.domain.Product;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * Контроллер обрабтывает HTTP-запросы для отображения, создания, редактирования, обновления и удаления продуктов

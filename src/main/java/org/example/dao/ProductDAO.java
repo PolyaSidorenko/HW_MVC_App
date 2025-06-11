@@ -5,7 +5,6 @@ import org.example.domain.Product;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-
 import java.util.List;
 
 /**
@@ -15,7 +14,6 @@ import java.util.List;
 public class ProductDAO {
 
     SessionFactory sessionFactory = DB_Util.getSessionFactory();
-
     /**
      * Создаёт новый продукт в базе данных
      * Если товар с таким именем уже существует, его количество увеличивается на 1
@@ -25,10 +23,10 @@ public class ProductDAO {
         try (Session session = DB_Util.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
 
-            Product product1 = findByName(product.getName());
-            if (product1 != null) {
-                product1.setQuantity(product1.getQuantity() + 1);
-                session.update(product1);
+            Product existingProduct = findByName(product.getName());
+            if (existingProduct != null) {
+                existingProduct.setQuantity(existingProduct.getQuantity() + 1);
+                session.update(existingProduct);
             } else {
                 product.setQuantity(1);
                 session.persist(product);
@@ -45,19 +43,13 @@ public class ProductDAO {
 
     public void update(Product product) {
         try (Session session = DB_Util.getSessionFactory().openSession()) {
-            Transaction transaction = session.beginTransaction();
             session.merge(product);
-
-            transaction.commit();
         }
     }
 
     public void delete(Product product) {
         try (Session session = DB_Util.getSessionFactory().openSession()) {
-            Transaction transaction = session.beginTransaction();
             session.remove(product);
-
-            transaction.commit();
         }
     }
 

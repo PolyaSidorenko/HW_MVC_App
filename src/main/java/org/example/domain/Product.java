@@ -22,17 +22,19 @@ public class Product {
     /**
      * Название продукта
      */
-//    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String name;
 
     /**
      * Цена продукта
      */
+    @Column(nullable = false)
     private Double price;
 
     /**
      * Количество продуктов на складе
      */
+    @Column(nullable = false)
     private Integer quantity;
 
     public Product() {
